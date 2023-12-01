@@ -3,7 +3,6 @@
 Store::Store()
 {
     size = 0;
-    a = 0;
 }
 
 void Store::add(int x)
@@ -12,7 +11,6 @@ void Store::add(int x)
     {
         data[size] = x;
         size++;
-        a = x;
     }
 }
 
@@ -26,7 +24,11 @@ void Store::del()
 
 void Store::info()
 {
-    std::cout << a << std::endl;
+    for(int i = 0; i < size; i++)
+    {
+        std::cout << data[i] << " ";
+    }
+    std::cout << std::endl;
 }
 
 Store::iterator::iterator()
@@ -44,6 +46,12 @@ Store::iterator::iterator(int i, Store *p)
 Store::iterator Store::iterator::operator++()
 {
     index++;
+    return *this;
+}
+
+Store::iterator Store::iterator::operator--()
+{
+    index--;
     return *this;
 }
 

@@ -1,4 +1,4 @@
-# Install script for directory: D:/Projects/Cpp
+# Install script for directory: D:/Projects/cpp_projects/Cpp
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/Projects/Cpp/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/Projects/cpp_projects/Cpp/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -11,7 +11,6 @@ private:
     int data[MAX];
     int size;
 public:
-    int a;
     Store();
     void add(int x);
     void del();
@@ -25,6 +24,7 @@ public:
         iterator();
         iterator(int i, Store* p);
         Store::iterator operator++();
+        Store::iterator operator--();
         bool operator !=(Store::iterator x);
         bool operator ==(Store::iterator x);
         int& operator*();
