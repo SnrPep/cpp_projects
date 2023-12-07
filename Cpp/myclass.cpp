@@ -4,6 +4,7 @@
 Currency::Currency()
 {
     name = "NO NAME";
+    cost = 1000;
 }
 
 Currency::Currency(std::string name, float cost)
@@ -15,6 +16,14 @@ Currency::Currency(std::string name, float cost)
 bool Currency::operator ==(Currency p)
 {
     return (this->cost == p.cost);
+}
+bool Currency::operator >(Currency p)
+{
+    return (this->cost > p.cost);
+}
+bool Currency::operator <(Currency p)
+{
+    return (this->cost < p.cost);
 }
 
 void Currency::info()

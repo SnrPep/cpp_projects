@@ -1,0 +1,3 @@
+D:/Projects/cpp_projects/newfltk/cmake-build-debug/CMakeFiles/newfltk.dir
+D:/Projects/cpp_projects/newfltk/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Projects/cpp_projects/newfltk/cmake-build-debug/CMakeFiles/rebuild_cache.dir

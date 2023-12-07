@@ -1,0 +1,16 @@
+# ninja log v5
+407	459	1700542633695516198	APolishTranslator	a20f29bba62abb9b
+16	540	7234503854297529	CMakeFiles/APolishTranslator.dir/A2TreeTranslator.cpp.obj	d74c5abeb9ecb47a
+3	247	7234508812340940	CMakeFiles/APolishTranslator.dir/ASmb.cpp.obj	c54d62fe2be4b899
+7	218	7234503850976098	CMakeFiles/APolishTranslator.dir/AStack.cpp.obj	802de39437c8a158
+10	261	7234508812477914	CMakeFiles/APolishTranslator.dir/APolishTranslator.cpp.obj	43271170beef91b5
+17	249	7234508812363646	CMakeFiles/APolishTranslator.dir/main.cpp.obj	ecd073733874e82a
+261	343	7234508813272626	APolishTranslator.exe	9012ebc9aaf80a38
+1	175	7234527451379673	build.ninja	5aa2e8f9054e5e89
+6	261	7234541917683816	CMakeFiles/APolishTranslator.dir/ASmb.cpp.obj	c54d62fe2be4b899
+2	287	7234541917954308	CMakeFiles/APolishTranslator.dir/APolishTranslator.cpp.obj	43271170beef91b5
+18	358	7234541918348376	CMakeFiles/APolishTranslator.dir/main.cpp.obj	ecd073733874e82a
+14	456	7234541919638706	CMakeFiles/APolishTranslator.dir/A2TreeTranslator.cpp.obj	d74c5abeb9ecb47a
+456	570	7234541920744958	APolishTranslator.exe	b12c086225dee7df
+4	469	7234542169149253	CMakeFiles/APolishTranslator.dir/main.cpp.obj	ecd073733874e82a
+470	656	7234542170919307	APolishTranslator.exe	b12c086225dee7df

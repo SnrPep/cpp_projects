@@ -1,8 +1,5 @@
-#ifndef CPP_MYCLASS_H
-#define CPP_MYCLASS_H
-
-#ifndef MYCLASS_H
-#define MYCLASS_H
+#ifndef MYCLASS
+#define MYCLASS
 
 #include <iostream>
 
@@ -14,11 +11,10 @@ public:
     Currency();
     Currency(std::string name, float cost);
     bool operator==(Currency p);
+    bool operator>(Currency p);
+    bool operator<(Currency p);
     void info();
     operator char*();
 };
 
 #endif
-
-
-#endif //CPP_MYCLASS_H

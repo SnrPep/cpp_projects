@@ -1,7 +1,6 @@
 "D:\CLion 2023.2.2\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=D:/CLion 2023.2.2/bin/ninja/win/x64/ninja.exe" -G Ninja -S D:\Projects\cpp_projects\fluid -B D:\Projects\cpp_projects\fluid\cmake-build-debug
--- Found OpenGL: opengl32   
 CMake Error at D:/CLion 2023.2.2/bin/cmake/win/x64/share/cmake-3.26/Modules/FindPackageHandleStandardArgs.cmake:230 (message):
-  Could NOT find FLTK (missing: FLTK_LIBRARIES FLTK_INCLUDE_DIR)
+  Could NOT find FLTK (missing: FLTK_LIBRARIES)
 Call Stack (most recent call first):
   D:/CLion 2023.2.2/bin/cmake/win/x64/share/cmake-3.26/Modules/FindPackageHandleStandardArgs.cmake:600 (_FPHSA_FAILURE_MESSAGE)
   D:/CLion 2023.2.2/bin/cmake/win/x64/share/cmake-3.26/Modules/FindFLTK.cmake:327 (FIND_PACKAGE_HANDLE_STANDARD_ARGS)
@@ -9,3 +8,17 @@ Call Stack (most recent call first):
 
 
 -- Configuring incomplete, errors occurred!
+
+Cannot get compiler information:
+	Compiler exited with error code 1: D:\CLion 2023.2.2\bin\mingw\bin\g++.exe -xc++ -g -fpch-preprocess -v -dD -E
+	Using built-in specs.
+	COLLECT_GCC=D:\CLion 2023.2.2\bin\mingw\bin\g++.exe
+	Target: x86_64-w64-mingw32
+	Configured with: ../gcc-13.1.0/configure --host=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --build=x86_64-alpine-linux-musl --prefix=/win --enable-checking=release --enable-fully-dynamic-string --enable-languages=c,c++ --with-arch=nocona --with-tune=generic --enable-libatomic --enable-libgomp --enable-libstdcxx-filesystem-ts --enable-libstdcxx-time --enable-seh-exceptions --enable-shared --enable-static --enable-threads=posix --enable-version-specific-runtime-libs --disable-bootstrap --disable-graphite --disable-libada --disable-libstdcxx-pch --disable-libstdcxx-debug --disable-libquadmath --disable-lto --disable-nls --disable-multilib --disable-rpath --disable-symvers --disable-werror --disable-win32-registry --with-gnu-as --with-gnu-ld --with-system-libiconv --with-system-libz --with-gmp=/win/makedepends --with-mpfr=/win/makedepends --with-mpc=/win/makedepends
+	Thread model: posix
+	Supported LTO compression algorithms: zlib
+	gcc version 13.1.0 (GCC) 
+	COLLECT_GCC_OPTIONS='-g' '-fpch-preprocess' '-v' '-dD' '-E' '-D' '___CIDR_DEFINITIONS_END' '-shared-libgcc' '-mtune=generic' '-march=nocona'
+	 D:/CLion 2023.2.2/bin/mingw/bin/../libexec/gcc/x86_64-w64-mingw32/13.1.0/cc1plus.exe -E -quiet -v -iprefix D:/CLion 2023.2.2/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/ -D_REENTRANT -D ___CIDR_DEFINITIONS_END C:\Users\zubar\AppData\Local\Temp\compiler-file17318845558159938556 -mtune=generic -march=nocona -fpch-preprocess -g -fworking-directory -dD -dumpbase compiler-file17318845558159938556
+	
+	
