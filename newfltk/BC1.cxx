@@ -9,9 +9,7 @@
 #include <FL/Fl_Button.H>
 
 const int nops = 12;
-static char va, vb;
-static long a, b, c;
-unsigned long int VA,VB,VC;
+uint64_t VA,VB,VC;
 Fl_Window *w;
 Fl_Button *R, *S, *lA, *lB, *lC, *Op[nops],*lR,*lS;
 Fl_Button *A[3][64], *B[3][64], *C[3][64];
@@ -22,8 +20,6 @@ void cb_a(Fl_Button *w, void *data);
 void cb_c(Fl_Button *w, void *data);
 static void cb_op(Fl_Widget *w, void *data);
 
-//int razr[4] = {8,16,32,64};
-//int syst[4] = {8,16,10};
 int RAZR = 0;
 int SYST = 0;
 const char *op[nops] = {"+", "-", "*", "/", "%", "<<", ">>", "~A", "~B", "&", "|", "^"};
@@ -145,8 +141,8 @@ static void cb_op(Fl_Widget *w, void *data) {
     char s[256];
     char s1[256];
     char s2[256];
-    sscanf(vA->value(), "%ld", &VA);
-    sscanf(vB->value(), "%ld", &VB);
+    sscanf(vA->value(), "%ll", &VA);
+    sscanf(vB->value(), "%ll", &VB);
     if (strcmp(opLabel, "+") == 0) {
         VC = VA + VB;
     } else if (strcmp(opLabel, "-") == 0) {
@@ -190,21 +186,29 @@ static void cb_op(Fl_Widget *w, void *data) {
             sprintf(s,"%x", VC);
             break;
         case 2:
-            sprintf(s,"%ld", VC);
+            sprintf(s,"%ll", VC);
             break;
     }
     vC->value(s);
-    for (long int i = 0; i < 64; i++) {
-        long int bit = (VA & (static_cast<unsigned long int>(1) << (63 - i))) ? 1 : 0;
+    for (int64_t i = 0; i < 64; i++) {
+        auto setBit = [&](auto& digit, auto& button)
+        {
+            int64_t bit = (digit & (static_cast<uint64_t>(1) << (63 - i))) ? 1 : 0;
+            button[i]->label(bit ? "1" : "0");
+        };
+
+        setBit(VA, A[0]);
+        setBit(VB, B[0]);
+        setBit(VC, C[0]);
+
+        /*int64_t bit = (VA & (static_cast<uint64_t>(1) << (63 - i))) ? 1 : 0;
         A[0][i]->label(bit ? "1" : "0");
-    }
-    for (long int i = 0; i < 64; i++) {
-        long int bit = (VC & (static_cast<unsigned long int>(1) << (63 - i))) ? 1 : 0;
-        C[0][i]->label(bit ? "1" : "0");
-    }
-    for (long int i = 0; i < 64; i++) {
-        long int bit = (VB & (static_cast<unsigned long int>(1) << (63 - i))) ? 1 : 0;
-        B[0][i]->label(bit ? "1" : "0");
+
+        int64_t bit2 = (VC & (static_cast<uint64_t>(1) << (63 - i))) ? 1 : 0;
+        C[0][i]->label(bit2 ? "1" : "0");
+
+        int64_t bit3 = (VB & (static_cast<uint64_t>(1) << (63 - i))) ? 1 : 0;
+        B[0][i]->label(bit3 ? "1" : "0");*/
     }
 }
 
@@ -212,10 +216,10 @@ void cb_c(Fl_Button *w, void *data) {
     Fl_Button *button = dynamic_cast<Fl_Button *>(w);
     VC = 0;
     char s[100];
-    long int val1;
-    for (long int i = 0; i < 64; i++) {
+    int64_t val1;
+    for (int64_t i = 0; i < 64; i++) {
         val1 = (strcmp(C[0][63-i]->label(),"1")==0)?1:0;
-        VC += val1 * (static_cast<unsigned long int>(1) << i);
+        VC += val1 * (static_cast<uint64_t>(1) << i);
         switch(SYST){
             case 0:
                 sprintf(s,"%o", VC);
@@ -224,7 +228,7 @@ void cb_c(Fl_Button *w, void *data) {
                 sprintf(s,"%x", VC);
                 break;
             case 2:
-                sprintf(s,"%ld", VC);
+                sprintf(s,"%ll", VC);
                 break;
         }
         vC->value(s);
@@ -235,7 +239,7 @@ void cb_a(Fl_Button *w, void *data) {
     Fl_Button *button = dynamic_cast<Fl_Button *>(w);
     VA = 0;
     char s1[100];
-    long int val1;
+    int64_t val1;
     if (button) {
         const char *currentText = button->label();
         if (strcmp(currentText, "1") == 0) {
@@ -244,9 +248,9 @@ void cb_a(Fl_Button *w, void *data) {
             button->label("1");
         }
     }
-    for (long int i = 0; i < 64; i++) {
+    for (int64_t i = 0; i < 64; i++) {
         val1 = (strcmp(A[0][63-i]->label(),"1")==0)?1:0;
-        VA += val1 * (static_cast<unsigned long int>(1) << i);
+        VA += val1 * (static_cast<uint64_t>(1) << i);
         switch(SYST){
             case 0:
                 sprintf(s1,"%o", VA);
@@ -255,7 +259,7 @@ void cb_a(Fl_Button *w, void *data) {
                 sprintf(s1,"%x", VA);
                 break;
             case 2:
-                sprintf(s1,"%ld", VA);
+                sprintf(s1,"%ll", VA);
                 break;
         }
         vA->value(s1);
@@ -266,7 +270,7 @@ void cb_b(Fl_Button *w, void *data) {
     Fl_Button *button = dynamic_cast<Fl_Button *>(w);
     VB = 0;
     char s2[100];
-    long int val2;
+    int64_t val2;
     if (button) {
         const char *currentText = button->label();
         if (strcmp(currentText, "1") == 0) {
@@ -275,9 +279,9 @@ void cb_b(Fl_Button *w, void *data) {
             button->label("1");
         }
     }
-    for (long int i = 0; i < 64; i++) {
+    for (int64_t i = 0; i < 64; i++) {
         val2 = (strcmp(B[0][63-i]->label(),"1")==0)?1:0;
-        VB += val2 * (static_cast<unsigned long int>(1) << i);
+        VB += val2 * (static_cast<uint64_t>(1) << i);
         switch(SYST){
             case 0:
                     sprintf(s2,"%o", VB);
@@ -286,7 +290,7 @@ void cb_b(Fl_Button *w, void *data) {
                     sprintf(s2,"%x", VB);
                     break;
             case 2:
-                    sprintf(s2,"%ld", VB);
+                    sprintf(s2,"%ll", VB);
                     break;
         }
         vB->value(s2);
@@ -295,20 +299,20 @@ void cb_b(Fl_Button *w, void *data) {
 
 
 void cb_vA(Fl_Widget *w, void *data) {
-    sscanf(vA->value(), "%ld", &VA);
-    long int bit = 0;
-    for (long int i = 0; i < 64; i++) {
-        //sscanf(vA->value(), "%ld", &VA);
-        bit = (VA & (static_cast<unsigned long int>(1) << (63 - i))) ? 1 : 0;
+    sscanf(vA->value(), "%ll", &VA);
+    int64_t bit = 0;
+    for (int64_t i = 0; i < 64; i++) {
+        //sscanf(vA->value(), "%ll", &VA);
+        bit = (VA & (static_cast<uint64_t>(1) << (63 - i))) ? 1 : 0;
         A[0][i]->label(bit ? "1" : "0");
     }
     VA=0;
 }
 
 void cb_vB(Fl_Widget *w, void *data) {
-    sscanf(vB->value(), "%ld", &VB);
-    for (long int i = 0; i < 64; i++) {
-        long int bit = (VB & (static_cast<unsigned long int>(1) << (63 - i))) ? 1 : 0;
+    sscanf(vB->value(), "%ll", &VB);
+    for (int64_t i = 0; i < 64; i++) {
+        int64_t bit = (VB & (static_cast<uint64_t>(1) << (63 - i))) ? 1 : 0;
         B[0][i]->label(bit ? "1" : "0");
     }
     VB=0;
@@ -345,8 +349,8 @@ int main(int argc, char **argv) {
     }
 
     Fl_Color color;
-    for (long j = 0; j < 3; j++)
-        for (long i = 0; i < 64; i++) {
+    for (int64_t j = 0; j < 3; j++)
+        for (int64_t i = 0; i < 64; i++) {
             int J;
             //J = (j == 2) ? 3 : j;
             A[j][i] = new Fl_Button(30 + i * (0 * 25 + 15), 70, 15 + 25 * 0, 20, "0");
@@ -364,6 +368,7 @@ int main(int argc, char **argv) {
             B[j][i]->callback((Fl_Callback *)cb_b);
         }
 
+    int q = sizeof(int64_t);
     vA = new Fl_Input(300, 30, 100, 25, "A");
     vA->callback((Fl_Callback *)cb_vA);
     vA->when(FL_WHEN_CHANGED);
