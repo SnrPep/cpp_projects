@@ -2,10 +2,12 @@
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Widget.H>
-#include <stdio.h>
-#include <cinttypes>
+#include <cstdio>
 #include <bitset>
-#include <string.h>
+#include <string>
+#include <vector>
+#include <memory>
+#include <functional>
 #include <FL/Fl_Button.H>
 
 const int nops = 12;
@@ -15,13 +17,90 @@ Fl_Button *R, *S, *lA, *lB, *lC, *Op[nops],*lR,*lS;
 Fl_Button *A[3][64], *B[3][64], *C[3][64];
 Fl_Input *vA, *vB, *vC;
 
+int RAZR = 0;
+int SYST = 0;
+
 void cb_b(Fl_Button *w, void *data);
 void cb_a(Fl_Button *w, void *data);
 void cb_c(Fl_Button *w, void *data);
 static void cb_op(Fl_Widget *w, void *data);
 
-int RAZR = 0;
-int SYST = 0;
+class Digit
+{
+public:
+    Digit(Fl_Input* input, Fl_Button* label, int ypos);
+private:
+    std::vector<std::unique_ptr<Fl_Button>> _buttons;
+    std::unique_ptr<Fl_Input> _input;
+    uint64_t _value;
+    std::unique_ptr<Fl_Button> _label;
+private:
+    void OnInputChanged(Fl_Widget *w, void *data);
+    void OnButtonPresed(Fl_Widget *w, void *data, int index);
+};
+
+Digit::Digit(Fl_Input* input, Fl_Button* label, int ypos): _input(input), _label(label) {
+    {
+        std::function<void(Fl_Widget *, void *)> func = std::bind(&Digit::OnInputChanged, this, std::placeholders::_1, std::placeholders::_2);
+        //auto cmp = *func.target<void(*)(Fl_Widget *, void *)>();
+        _input->callback((Fl_Callback *)&func);
+        _input->when(FL_WHEN_CHANGED);
+    }
+
+    _buttons.resize(sizeof(_value) * 8);
+    for (int64_t i = 0; i < sizeof(_value) * 8; i++) {
+        _buttons[i] = std::make_unique<Fl_Button>(30 + i * (0 * 25 + 15), ypos, 15 + 25 * 0, 20, "0");
+        std::function<void(Fl_Widget*, void*)> func = std::bind(&Digit::OnButtonPresed, this, std::placeholders::_1, std::placeholders::_2, i);
+        _buttons[i]->callback((Fl_Callback *)&func);
+    }
+}
+
+void Digit::OnInputChanged(Fl_Widget *w, void *data) {
+    sscanf(_input->value(), "%ld", &_value);
+    for (int64_t i = 0; i < 64; i++) {
+        auto bit = (_value & (static_cast<uint64_t>(1) << (63 - i))) == 1;
+        _buttons[i]->label(bit ? "1" : "0");
+    }
+    _value=0;
+}
+
+void Digit::OnButtonPresed(Fl_Widget *w, void *data, int index) {
+    auto& button = _buttons[index];
+    if (!button)
+    {
+        return;
+    }
+
+    const char *currentText = button->label();
+    if (strcmp(currentText, "1") == 0)
+    {
+        button->label("0");
+        _value -= (int64_t)1 << index;
+    }
+    else
+    {
+        button->label("1");
+        _value += (int64_t)1 << index;
+    }
+    char s[100];
+
+    switch(SYST){
+        case 0:
+            sprintf(s,"%o", _value);
+            break;
+        case 2:
+            sprintf(s,"%ld", _value);
+            break;
+        case 1:
+            sprintf(s,"%x", _value);
+            break;
+    }
+    _input->value(s);
+}
+
+std::vector<Digit> digits;
+
+//std::vector<std::string> op = {"+", "-", "*", "/", "%", "<<", ">>", "~A", "~B", "&", "|", "^"};
 const char *op[nops] = {"+", "-", "*", "/", "%", "<<", ">>", "~A", "~B", "&", "|", "^"};
 
 void cb_R(Fl_Button *w, void *data) {
@@ -336,47 +415,33 @@ int main(int argc, char **argv) {
     lR->box(FL_NO_BOX);
     lS = new Fl_Button(125, 5, 80, 20, "Система");
     lS->box(FL_NO_BOX);
-    lA = new Fl_Button(5, 70, 25, 25, "A");
-    lA->box(FL_NO_BOX);
-    lB = new Fl_Button(5, 110, 25, 25, "B");
-    lB->box(FL_NO_BOX);
-    lC = new Fl_Button(5, 150, 25, 25, "C");
-    lC->box(FL_NO_BOX);
+
+    {
+        auto label = new Fl_Button(5, 70, 25, 25, "A");
+        label->box(FL_NO_BOX);
+        auto input = new Fl_Input(300, 30, 100, 25, "A");
+        digits.emplace_back(input, label, 70);
+    }
+
+    {
+        auto label = new Fl_Button(5, 110, 25, 25, "B");
+        label->box(FL_NO_BOX);
+        auto input = new Fl_Input(450, 30, 100, 25, "B");
+        digits.emplace_back(input, label, 110);
+    }
+
+    {
+        auto label = new Fl_Button(5, 150, 25, 25, "C");
+        label->box(FL_NO_BOX);
+        auto input = new Fl_Input(600, 30, 100, 25, "C");
+        digits.emplace_back(input, label, 150);
+    }
 
     for (int i = 0; i < nops; i++) {
         Op[i] = new Fl_Button(30 + i * 40, 200, 40, 30, op[i]);
         Op[i]->callback((Fl_Callback *) cb_op);
     }
 
-    Fl_Color color;
-    for (int64_t j = 0; j < 3; j++)
-        for (int64_t i = 0; i < 64; i++) {
-            int J;
-            //J = (j == 2) ? 3 : j;
-            A[j][i] = new Fl_Button(30 + i * (0 * 25 + 15), 70, 15 + 25 * 0, 20, "0");
-            /*if ((i / 3) % 3)
-             *
-                A[j][i]->color(color);*/
-            B[j][i] = new Fl_Button(30 + i * (0 * 25 + 15), 110, 15 + 25 * 0, 20, "0");
-            C[j][i] = new Fl_Button(30 + i * (0 * 25 + 15), 150, 15 + 25 * 0, 20, "0");
-            if (j) {
-                A[j][i]->hide();
-                B[j][i]->hide();
-                C[j][i]->hide();
-            }
-            A[j][i]->callback((Fl_Callback *)cb_a);
-            B[j][i]->callback((Fl_Callback *)cb_b);
-        }
-
-    int q = sizeof(int64_t);
-    vA = new Fl_Input(300, 30, 100, 25, "A");
-    vA->callback((Fl_Callback *)cb_vA);
-    vA->when(FL_WHEN_CHANGED);
-    vB = new Fl_Input(450, 30, 100, 25, "B");
-    vB->callback((Fl_Callback *)cb_vB);
-    vB->when(FL_WHEN_CHANGED);
-    vC = new Fl_Input(600, 30, 100, 25, "C");
-    vC->when(FL_WHEN_CHANGED);
     w->end();
     w->show(argc, argv);
     return Fl::run();
