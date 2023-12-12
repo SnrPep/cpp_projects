@@ -1,11 +1,17 @@
+//Создать функцию UpdateInput учитыват разрядность и систему счисления
+//Создать функцию UpdateButtons учитыват разрядность и систему счисления
+//Поправить работу системы счисления (просто меняем параметр SYST и вызываем updateInput и UpdateButtons)
+//Поправить работут разрядности (просто меняем параметр разрядности и вызываем updateInput и UpdateButtons)
+//Поправить операции (просто делаем операцию с прараметром value a и b, устанавливаем результат в c и вызываем updateInput и UpdateButtons)
+
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Widget.H>
 #include <cstdio>
-#include <bitset>
 #include <string>
 #include <vector>
+#include <map>
 #include <memory>
 #include <functional>
 #include <FL/Fl_Button.H>
@@ -13,58 +19,64 @@
 const int nops = 12;
 uint64_t VA,VB,VC;
 Fl_Window *w;
-Fl_Button *R, *S, *lA, *lB, *lC, *Op[nops],*lR,*lS;
+Fl_Button *R, *S, *Op[nops],*lR,*lS;
 Fl_Button *A[3][64], *B[3][64], *C[3][64];
 Fl_Input *vA, *vB, *vC;
 
 int RAZR = 0;
 int SYST = 0;
 
-void cb_b(Fl_Button *w, void *data);
-void cb_a(Fl_Button *w, void *data);
-void cb_c(Fl_Button *w, void *data);
 static void cb_op(Fl_Widget *w, void *data);
 
 class Digit
 {
 public:
+    Digit(Digit&& other) noexcept;
     Digit(Fl_Input* input, Fl_Button* label, int ypos);
+    ~Digit();
 private:
     std::vector<std::unique_ptr<Fl_Button>> _buttons;
-    std::unique_ptr<Fl_Input> _input;
-    uint64_t _value;
-    std::unique_ptr<Fl_Button> _label;
+    std::unique_ptr<Fl_Input> _input = nullptr;
+    uint64_t _value = 0;
+    std::unique_ptr<Fl_Button> _label = nullptr;
 private:
     void OnInputChanged(Fl_Widget *w, void *data);
-    void OnButtonPresed(Fl_Widget *w, void *data, int index);
+    void OnButtonPressed(Fl_Widget *w, void *data, int index);
+    static void OnSmtHappens(Fl_Widget* w, void* data);
+    static std::map<Fl_Widget*, std::function<void(Fl_Widget*, void*)>> _funcs;
+    void InitSubs();
 };
 
-Digit::Digit(Fl_Input* input, Fl_Button* label, int ypos): _input(input), _label(label) {
-    {
-        std::function<void(Fl_Widget *, void *)> func = std::bind(&Digit::OnInputChanged, this, std::placeholders::_1, std::placeholders::_2);
-        //auto cmp = *func.target<void(*)(Fl_Widget *, void *)>();
-        _input->callback((Fl_Callback *)&func);
-        _input->when(FL_WHEN_CHANGED);
-    }
+std::map<Fl_Widget*, std::function<void(Fl_Widget*, void*)>> Digit::_funcs = {};
 
-    _buttons.resize(sizeof(_value) * 8);
+Digit::Digit(Fl_Input* input, Fl_Button* label, int ypos): _input(input), _label(label) {
+    _input->when(FL_WHEN_CHANGED);
+    _buttons.resize(64);
     for (int64_t i = 0; i < sizeof(_value) * 8; i++) {
         _buttons[i] = std::make_unique<Fl_Button>(30 + i * (0 * 25 + 15), ypos, 15 + 25 * 0, 20, "0");
-        std::function<void(Fl_Widget*, void*)> func = std::bind(&Digit::OnButtonPresed, this, std::placeholders::_1, std::placeholders::_2, i);
-        _buttons[i]->callback((Fl_Callback *)&func);
+    }
+
+    InitSubs();
+}
+
+Digit::~Digit() {
+    _funcs.erase(_input.get());
+
+    for (auto& b : _buttons) {
+        _funcs.erase(b.get());
     }
 }
 
 void Digit::OnInputChanged(Fl_Widget *w, void *data) {
+    _value = 0;
     sscanf(_input->value(), "%ld", &_value);
     for (int64_t i = 0; i < 64; i++) {
-        auto bit = (_value & (static_cast<uint64_t>(1) << (63 - i))) == 1;
+        auto bit = (_value & (static_cast<uint64_t>(1) << (63 - i))) != 0;
         _buttons[i]->label(bit ? "1" : "0");
     }
-    _value=0;
 }
 
-void Digit::OnButtonPresed(Fl_Widget *w, void *data, int index) {
+void Digit::OnButtonPressed(Fl_Widget *w, void *data, int index) {
     auto& button = _buttons[index];
     if (!button)
     {
@@ -75,12 +87,12 @@ void Digit::OnButtonPresed(Fl_Widget *w, void *data, int index) {
     if (strcmp(currentText, "1") == 0)
     {
         button->label("0");
-        _value -= (int64_t)1 << index;
+        _value -= (int64_t)1 << (_buttons.size() - index - 1);
     }
     else
     {
         button->label("1");
-        _value += (int64_t)1 << index;
+        _value += (int64_t)1 << (_buttons.size() - index - 1);
     }
     char s[100];
 
@@ -96,6 +108,40 @@ void Digit::OnButtonPresed(Fl_Widget *w, void *data, int index) {
             break;
     }
     _input->value(s);
+}
+
+void Digit::OnSmtHappens(Fl_Widget *w, void *data) {
+    if (_funcs.count(w) == 0) {
+        return;
+    }
+
+    _funcs[w](w, data);
+}
+
+Digit::Digit(Digit && other) noexcept{
+    _buttons = std::move(other._buttons);
+    _input = std::move(other._input);
+    _value = other._value;
+    other._value = 0;
+    _label = std::move(other._label);
+    InitSubs();
+}
+
+void Digit::InitSubs() {
+    {
+        _funcs[_input.get()] = [this](Fl_Widget* w, void* d){
+            _input->value();
+            OnInputChanged(w, d);
+        };
+        _input->callback(Digit::OnSmtHappens);
+    }
+
+    for (int64_t i = 0; i < _buttons.size(); i++) {
+        _funcs[_buttons[i].get()] = [this, i](Fl_Widget* w, void* d){
+            OnButtonPressed(w, d, i);
+        };
+        _buttons[i]->callback(Digit::OnSmtHappens);
+    }
 }
 
 std::vector<Digit> digits;
@@ -197,9 +243,6 @@ void cb_R(Fl_Button *w, void *data) {
 void cb_S(Fl_Widget *w, void *data) {
     SYST++;
     SYST %= 3;
-    cb_a(NULL, NULL);
-    cb_b(NULL, NULL);
-    cb_c(NULL,NULL);
     Fl_Button *button = dynamic_cast<Fl_Button *>(w);
     if (button) {
         const char *currentText = button->label();
@@ -279,122 +322,7 @@ static void cb_op(Fl_Widget *w, void *data) {
         setBit(VA, A[0]);
         setBit(VB, B[0]);
         setBit(VC, C[0]);
-
-        /*int64_t bit = (VA & (static_cast<uint64_t>(1) << (63 - i))) ? 1 : 0;
-        A[0][i]->label(bit ? "1" : "0");
-
-        int64_t bit2 = (VC & (static_cast<uint64_t>(1) << (63 - i))) ? 1 : 0;
-        C[0][i]->label(bit2 ? "1" : "0");
-
-        int64_t bit3 = (VB & (static_cast<uint64_t>(1) << (63 - i))) ? 1 : 0;
-        B[0][i]->label(bit3 ? "1" : "0");*/
     }
-}
-
-void cb_c(Fl_Button *w, void *data) {
-    Fl_Button *button = dynamic_cast<Fl_Button *>(w);
-    VC = 0;
-    char s[100];
-    int64_t val1;
-    for (int64_t i = 0; i < 64; i++) {
-        val1 = (strcmp(C[0][63-i]->label(),"1")==0)?1:0;
-        VC += val1 * (static_cast<uint64_t>(1) << i);
-        switch(SYST){
-            case 0:
-                sprintf(s,"%o", VC);
-                break;
-            case 1:
-                sprintf(s,"%x", VC);
-                break;
-            case 2:
-                sprintf(s,"%ll", VC);
-                break;
-        }
-        vC->value(s);
-    }
-}
-
-void cb_a(Fl_Button *w, void *data) {
-    Fl_Button *button = dynamic_cast<Fl_Button *>(w);
-    VA = 0;
-    char s1[100];
-    int64_t val1;
-    if (button) {
-        const char *currentText = button->label();
-        if (strcmp(currentText, "1") == 0) {
-            button->label("0");
-        } else if (strcmp(currentText, "0") == 0) {
-            button->label("1");
-        }
-    }
-    for (int64_t i = 0; i < 64; i++) {
-        val1 = (strcmp(A[0][63-i]->label(),"1")==0)?1:0;
-        VA += val1 * (static_cast<uint64_t>(1) << i);
-        switch(SYST){
-            case 0:
-                sprintf(s1,"%o", VA);
-                break;
-            case 1:
-                sprintf(s1,"%x", VA);
-                break;
-            case 2:
-                sprintf(s1,"%ll", VA);
-                break;
-        }
-        vA->value(s1);
-    }
-}
-
-void cb_b(Fl_Button *w, void *data) {
-    Fl_Button *button = dynamic_cast<Fl_Button *>(w);
-    VB = 0;
-    char s2[100];
-    int64_t val2;
-    if (button) {
-        const char *currentText = button->label();
-        if (strcmp(currentText, "1") == 0) {
-            button->label("0");
-        } else if (strcmp(currentText, "0") == 0) {
-            button->label("1");
-        }
-    }
-    for (int64_t i = 0; i < 64; i++) {
-        val2 = (strcmp(B[0][63-i]->label(),"1")==0)?1:0;
-        VB += val2 * (static_cast<uint64_t>(1) << i);
-        switch(SYST){
-            case 0:
-                    sprintf(s2,"%o", VB);
-                    break;
-            case 1:
-                    sprintf(s2,"%x", VB);
-                    break;
-            case 2:
-                    sprintf(s2,"%ll", VB);
-                    break;
-        }
-        vB->value(s2);
-    }
-}
-
-
-void cb_vA(Fl_Widget *w, void *data) {
-    sscanf(vA->value(), "%ll", &VA);
-    int64_t bit = 0;
-    for (int64_t i = 0; i < 64; i++) {
-        //sscanf(vA->value(), "%ll", &VA);
-        bit = (VA & (static_cast<uint64_t>(1) << (63 - i))) ? 1 : 0;
-        A[0][i]->label(bit ? "1" : "0");
-    }
-    VA=0;
-}
-
-void cb_vB(Fl_Widget *w, void *data) {
-    sscanf(vB->value(), "%ll", &VB);
-    for (int64_t i = 0; i < 64; i++) {
-        int64_t bit = (VB & (static_cast<uint64_t>(1) << (63 - i))) ? 1 : 0;
-        B[0][i]->label(bit ? "1" : "0");
-    }
-    VB=0;
 }
 
 int main(int argc, char **argv) {
