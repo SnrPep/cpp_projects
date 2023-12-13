@@ -1,5 +1,5 @@
 //Создать функцию UpdateInput учитыват разрядность и систему счисления
-//Создать функцию UpdateButtons учитыват разрядность и систему счисления
+//Создать функцию UpdateButtons учитыват разрядность и систему счисления 👍
 //Поправить работу системы счисления (просто меняем параметр SYST и вызываем updateInput и UpdateButtons)
 //Поправить работут разрядности (просто меняем параметр разрядности и вызываем updateInput и UpdateButtons)
 //Поправить операции (просто делаем операцию с прараметром value a и b, устанавливаем результат в c и вызываем updateInput и UpdateButtons)
@@ -45,6 +45,7 @@ private:
     static void OnSmtHappens(Fl_Widget* w, void* data);
     static std::map<Fl_Widget*, std::function<void(Fl_Widget*, void*)>> _funcs;
     void InitSubs();
+    void UpdateButtons(Fl_Widget *w, void *data, int index);
 };
 
 std::map<Fl_Widget*, std::function<void(Fl_Widget*, void*)>> Digit::_funcs = {};
@@ -69,7 +70,7 @@ Digit::~Digit() {
 
 void Digit::OnInputChanged(Fl_Widget *w, void *data) {
     _value = 0;
-    sscanf(_input->value(), "%ld", &_value);
+    sscanf(_input->value(), "%lld", &_value);
     for (int64_t i = 0; i < 64; i++) {
         auto bit = (_value & (static_cast<uint64_t>(1) << (63 - i))) != 0;
         _buttons[i]->label(bit ? "1" : "0");
@@ -77,34 +78,19 @@ void Digit::OnInputChanged(Fl_Widget *w, void *data) {
 }
 
 void Digit::OnButtonPressed(Fl_Widget *w, void *data, int index) {
-    auto& button = _buttons[index];
-    if (!button)
-    {
-        return;
-    }
+    UpdateButtons(w, data, index);
 
-    const char *currentText = button->label();
-    if (strcmp(currentText, "1") == 0)
-    {
-        button->label("0");
-        _value -= (int64_t)1 << (_buttons.size() - index - 1);
-    }
-    else
-    {
-        button->label("1");
-        _value += (int64_t)1 << (_buttons.size() - index - 1);
-    }
     char s[100];
 
     switch(SYST){
         case 0:
-            sprintf(s,"%o", _value);
+            sprintf(s,"%llo", _value);
             break;
         case 2:
-            sprintf(s,"%ld", _value);
+            sprintf(s,"%lld", _value);
             break;
         case 1:
-            sprintf(s,"%x", _value);
+            sprintf(s,"%llx", _value);
             break;
     }
     _input->value(s);
@@ -141,6 +127,26 @@ void Digit::InitSubs() {
             OnButtonPressed(w, d, i);
         };
         _buttons[i]->callback(Digit::OnSmtHappens);
+    }
+}
+
+void Digit::UpdateButtons(Fl_Widget *w, void *data, int index) {
+    auto& button = _buttons[index];
+    if (!button)
+    {
+        return;
+    }
+
+    const char *currentText = button->label();
+    if (strcmp(currentText, "1") == 0)
+    {
+        button->label("0");
+        _value -= (int64_t)1 << (_buttons.size() - index - 1);
+    }
+    else
+    {
+        button->label("1");
+        _value += (int64_t)1 << (_buttons.size() - index - 1);
     }
 }
 
