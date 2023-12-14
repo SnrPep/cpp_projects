@@ -1,8 +1,0 @@
-# ninja log v5
-1	2603	7240838725737019	CMakeFiles/newfltk.dir/BC1.cpp.obj	d9013a0f63acfa4b
-4	1085	7235671566586017	CMakeFiles/newfltk.dir/main.cpp.obj	445b11d3caa45aa2
-5	113	7242315230415866	newfltk.exe	6da3e716d923dc7e
-4	2079	7241404764770169	CMakeFiles/newfltk.dir/BC1.cxx.obj	7a5c44f5de5d2189
-0	217	7242513102327599	build.ninja	2e1873d3e4a4a516
-4	1454	7242314887338469	CMakeFiles/newfltk.dir/Rom.cpp.obj	6609948df82309fd
-8	2122	7242312184853923	CMakeFiles/newfltk.dir/Bccc1.cxx.obj	a290e863a670fe01
