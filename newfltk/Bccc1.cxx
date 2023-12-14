@@ -143,8 +143,20 @@ static void cb_op(Fl_Widget *w, void *data) {
     char s[256];
     char s1[256];
     char s2[256];
-    sscanf(vA->value(), "%lld", &VA);
-    sscanf(vB->value(), "%lld", &VB);
+    switch(SYST){
+        case 0:
+            sscanf(vA->value(), "%llo", &VA);
+            sscanf(vB->value(), "%llo", &VB);
+            break;
+        case 1:
+            sscanf(vA->value(), "%llx", &VA);
+            sscanf(vB->value(), "%llx", &VB);
+            break;
+        case 2:
+            sscanf(vA->value(), "%lld", &VA);
+            sscanf(vB->value(), "%lld", &VB);
+            break;
+    }
     if (strcmp(opLabel, "+") == 0) {
         VC = VA + VB;
     } else if (strcmp(opLabel, "-") == 0) {
@@ -158,7 +170,7 @@ static void cb_op(Fl_Widget *w, void *data) {
             VC = 0;
             return;
         }
-    } else if (strcmp(opLabel, "%ll") == 0) {
+    } else if (strcmp(opLabel, "%") == 0) {
         if (VB != 0) {
             VC = VA % VB;
         } else {
@@ -192,19 +204,24 @@ static void cb_op(Fl_Widget *w, void *data) {
             break;
     }
     vC->value(s);
-    for (int i = 0; i < Razr; i++) {
-        int64_t bit = (VC & (static_cast<int64_t>(1) << (Razr - 1 - i))) ? 1 : 0;
-        C[0][i+64-Razr]->label(bit ? "1" : "0");
+    for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < Razr; i++) {
+            int64_t bit = (VC & (static_cast<int64_t>(1) << (Razr - 1 - i))) ? 1 : 0;
+            C[0][i + 64 - Razr]->label(bit ? "1" : "0");
+        }
     }
-    /*for (int i = 0; i < Razr; i++) {
-        int64_t bit = (VA & (static_cast<int64_t>(1) << (Razr - 1 - i))) ? 1 : 0;
-        A[0][i+64-Razr]->label(bit ? "1" : "0");
+    for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < Razr; i++) {
+            int64_t bit = (VA & (static_cast<int64_t>(1) << (Razr - 1 - i))) ? 1 : 0;
+            A[0][i + 64 - Razr]->label(bit ? "1" : "0");
+        }
     }
-
-    for (int i = 0; i < Razr; i++) {
-        int64_t bit = (VB & (static_cast<int64_t>(1) << (Razr - 1 - i))) ? 1 : 0;
-        B[0][i+64-Razr]->label(bit ? "1" : "0");
-    }*/
+    for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < Razr; i++) {
+            int64_t bit = (VB & (static_cast<int64_t>(1) << (Razr - 1 - i))) ? 1 : 0;
+            B[0][i + 64 - Razr]->label(bit ? "1" : "0");
+        }
+    }
 }
 
 void cb_c(Fl_Button *w, void *data) {
@@ -294,23 +311,42 @@ void cb_b(Fl_Button *w, void *data) {
 
 void cb_vA(Fl_Widget *w, void *data) {
     VA=0;
-    sscanf(vA->value(), "%lld", &VA);
+    switch(SYST){
+        case 0:
+            sscanf(vA->value(), "%llo", &VA);
+            break;
+        case 1:
+            sscanf(vA->value(), "%llx", &VA);
+            break;
+        case 2:
+            sscanf(vA->value(), "%lld", &VA);
+            break;
+    }
     int64_t bit = 0;
-    for (int j=0; j<3;j++)
-        for (int i = 0; i < Razr; i++) {
-            //sscanf(vA->value(), "%llld", &VA);
-            bit = (VA & (static_cast<int64_t>(1) << (Razr - 1 - i))) ? 1 : 0;
-            A[j][i+64-Razr]->label(bit ? "1" : "0");
-        }
+
+    for (int i = 0; i < Razr; i++) {
+        bit = (VA & (static_cast<int64_t>(1) << (Razr - 1 - i))) ? 1 : 0;
+        A[0][i + 64 - Razr]->label(bit ? "1" : "0");
+    }
 
 }
 
 void cb_vB(Fl_Widget *w, void *data) {
     VB=0;
-    sscanf(vB->value(), "%lld", &VB);
+    switch(SYST){
+        case 0:
+            sscanf(vB->value(), "%llo", &VB);
+            break;
+        case 1:
+            sscanf(vB->value(), "%llx", &VB);
+            break;
+        case 2:
+            sscanf(vB->value(), "%lld", &VB);
+            break;
+    }
     for (int i = 0; i < Razr; i++) {
         int64_t bit = (VB & (static_cast<int64_t>(1) << (Razr - 1 - i))) ? 1 : 0;
-        B[0][i+64-Razr]->label(bit ? "1" : "0");
+        B[0][i + 64 - Razr]->label(bit ? "1" : "0");
     }
 
 }
