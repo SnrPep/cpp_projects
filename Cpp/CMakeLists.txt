@@ -3,7 +3,4 @@ project(Cpp)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(Cpp main.cpp
-        class.h
-        myclass.cpp
-        myclass.h)
+add_executable(Cpp a.cpp)

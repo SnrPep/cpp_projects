@@ -1,1 +1,3 @@
 ﻿*.exe
+newfltk/cmake-build-debug/Testing
+Cpp/cmake-build-debug/Testing

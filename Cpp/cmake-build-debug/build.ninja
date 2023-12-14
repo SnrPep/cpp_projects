@@ -49,14 +49,8 @@ cmake_ninja_workdir = D$:/Projects/cpp_projects/Cpp/cmake-build-debug/
 
 build cmake_object_order_depends_target_Cpp: phony || CMakeFiles/Cpp.dir
 
-build CMakeFiles/Cpp.dir/main.cpp.obj: CXX_COMPILER__Cpp_unscanned_Debug D$:/Projects/cpp_projects/Cpp/main.cpp || cmake_object_order_depends_target_Cpp
-  DEP_FILE = CMakeFiles\Cpp.dir\main.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\Cpp.dir
-  OBJECT_FILE_DIR = CMakeFiles\Cpp.dir
-
-build CMakeFiles/Cpp.dir/myclass.cpp.obj: CXX_COMPILER__Cpp_unscanned_Debug D$:/Projects/cpp_projects/Cpp/myclass.cpp || cmake_object_order_depends_target_Cpp
-  DEP_FILE = CMakeFiles\Cpp.dir\myclass.cpp.obj.d
+build CMakeFiles/Cpp.dir/a.cpp.obj: CXX_COMPILER__Cpp_unscanned_Debug D$:/Projects/cpp_projects/Cpp/a.cpp || cmake_object_order_depends_target_Cpp
+  DEP_FILE = CMakeFiles\Cpp.dir\a.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\Cpp.dir
   OBJECT_FILE_DIR = CMakeFiles\Cpp.dir
@@ -69,7 +63,7 @@ build CMakeFiles/Cpp.dir/myclass.cpp.obj: CXX_COMPILER__Cpp_unscanned_Debug D$:/
 #############################################
 # Link the executable Cpp.exe
 
-build Cpp.exe: CXX_EXECUTABLE_LINKER__Cpp_Debug CMakeFiles/Cpp.dir/main.cpp.obj CMakeFiles/Cpp.dir/myclass.cpp.obj
+build Cpp.exe: CXX_EXECUTABLE_LINKER__Cpp_Debug CMakeFiles/Cpp.dir/a.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Cpp.dir
