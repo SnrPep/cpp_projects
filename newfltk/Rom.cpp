@@ -7,13 +7,50 @@
 #include <cmath>
 #include <stdio.h>
 #include <algorithm>
-//
+
 int N,n,R,color;
 Fl_Input *vn, *vN,*vR;
 Fl_Input *vr;
 Fl_Button *goButton;
 Fl_Button *error, *colorButton;
 Fl_Button *btn[640000];
+
+static void cb_goButton(Fl_Button*, void*);
+
+void cb_vN(Fl_Button *w, void *data) {
+    sscanf(vN->value(), "%d", &N);
+
+}
+
+void cb_vn(Fl_Button *w, void *data) {
+    sscanf(vn->value(), "%d", &n);
+}
+
+void cb_vR(Fl_Button *w, void *data) {
+    sscanf(vR->value(), "%d", &R);
+    char r[100];
+    sprintf(r,"%ld",R/4);
+    vr->value(r);
+}
+
+void cb_btn(Fl_Button *w, void *data) {
+}
+
+void cb_colorButton(Fl_Button *w, void *data) {
+    color++;
+    color%=3;
+    switch (color) {
+        case 0:
+            colorButton->color(FL_RED);
+            break;
+        case 1:
+            colorButton->color(FL_BLUE);
+            break;
+        case 2:
+            colorButton->color(FL_GREEN);
+            break;
+    }
+}
 
 static void cb_goButton(Fl_Button*, void*data) {
     int i,w,h,ix ,iy/*, n =7*/;

@@ -100,7 +100,6 @@ void Digit::OnSmtHappens(Fl_Widget *w, void *data) {
     if (_funcs.count(w) == 0) {
         return;
     }
-
     _funcs[w](w, data);
 }
 
@@ -267,8 +266,6 @@ static void cb_op(Fl_Widget *w, void *data) {
     if (!button) return;
     const char *opLabel = button->label();
     char s[256];
-    char s1[256];
-    char s2[256];
     sscanf(vA->value(), "%ll", &VA);
     sscanf(vB->value(), "%ll", &VB);
     if (strcmp(opLabel, "+") == 0) {
