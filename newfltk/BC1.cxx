@@ -45,7 +45,8 @@ private:
     static void OnSmtHappens(Fl_Widget* w, void* data);
     static std::map<Fl_Widget*, std::function<void(Fl_Widget*, void*)>> _funcs;
     void InitSubs();
-    void UpdateButtons(Fl_Widget *w, void *data, int index);
+    void UpdateButtons(Fl_Widget *w, void *data);
+    void UpdateInput(Fl_Widget *w, void *data, int index);
 };
 
 std::map<Fl_Widget*, std::function<void(Fl_Widget*, void*)>> Digit::_funcs = {};
@@ -69,31 +70,11 @@ Digit::~Digit() {
 }
 
 void Digit::OnInputChanged(Fl_Widget *w, void *data) {
-    _value = 0;
-    sscanf(_input->value(), "%lld", &_value);
-    for (int64_t i = 0; i < 64; i++) {
-        auto bit = (_value & (static_cast<uint64_t>(1) << (63 - i))) != 0;
-        _buttons[i]->label(bit ? "1" : "0");
-    }
+    UpdateButtons(w, data);
 }
 
 void Digit::OnButtonPressed(Fl_Widget *w, void *data, int index) {
-    UpdateButtons(w, data, index);
-
-    char s[100];
-
-    switch(SYST){
-        case 0:
-            sprintf(s,"%llo", _value);
-            break;
-        case 2:
-            sprintf(s,"%lld", _value);
-            break;
-        case 1:
-            sprintf(s,"%llx", _value);
-            break;
-    }
-    _input->value(s);
+    UpdateInput(w, data, index);
 }
 
 void Digit::OnSmtHappens(Fl_Widget *w, void *data) {
@@ -129,7 +110,7 @@ void Digit::InitSubs() {
     }
 }
 
-void Digit::UpdateButtons(Fl_Widget *w, void *data, int index) {
+void Digit::UpdateInput(Fl_Widget *w, void *data, int index) {
     auto& button = _buttons[index];
     if (!button)
     {
@@ -146,6 +127,38 @@ void Digit::UpdateButtons(Fl_Widget *w, void *data, int index) {
     {
         button->label("1");
         _value += (int64_t)1 << (_buttons.size() - index - 1);
+    }
+
+    char s[100];
+
+    switch(SYST){
+        case 0:
+            sprintf(s,"%llo", _value);
+            break;
+        case 2:
+            sprintf(s,"%lld", _value);
+            break;
+        case 1:
+            sprintf(s,"%llx", _value);
+    }
+    _input->value(s);
+}
+
+void Digit::UpdateButtons(Fl_Widget *w, void *data) {
+    _value = 0;
+    switch(SYST){
+        case 0:
+            sscanf(_input->value(), "%llo", &_value);
+            break;
+        case 2:
+            sscanf(_input->value(), "%lld", &_value);
+            break;
+        case 1:
+            sscanf(_input->value(), "%llx", &_value);
+    }
+    for (int64_t i = 0; i < 64; i++) {
+        auto bit = (_value & (static_cast<uint64_t>(1) << (63 - i))) != 0;
+        _buttons[i]->label(bit ? "1" : "0");
     }
 }
 
