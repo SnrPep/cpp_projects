@@ -10,7 +10,9 @@ ASmb::ASmb()
 /////////////////////////////////////////////
 ASmb::~ASmb()
 {
-    //dtor
+    for (ASmb *child : children) {
+        delete child;
+    }
 }
 /////////////////////////////////////////////
 void ASmb::Init(char c,int type,int a)

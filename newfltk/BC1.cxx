@@ -18,11 +18,8 @@
 #include <FL/Fl_Button.H>
 
 const int nops = 12;
-uint64_t VA,VB,VC;
 Fl_Window *w;
 Fl_Button *R, *S, *Op[nops],*lR,*lS;
-Fl_Button *A[3][64], *B[3][64], *C[3][64];
-Fl_Input *vA, *vB, *vC;
 
 static void cb_op(Fl_Widget *w, void *data);
 
@@ -234,14 +231,12 @@ std::vector<Digit> digits;
 Digit::System SYST = Digit::System::OCT;
 Digit::Capacity RAZR = Digit::Capacity::INT64;
 
-//std::vector<std::string> op = {"+", "-", "*", "/", "%", "<<", ">>", "~A", "~B", "&", "|", "^"};
 const char *op[nops] = {"+", "-", "*", "/", "%", "<<", ">>", "~A", "~B", "&", "|", "^"};
 
 void cb_R(Fl_Button *w, void *data) {
     RAZR = Digit::Capacity((int(RAZR) + 1) % int(Digit::Capacity::MAX));
 
-    Fl_Button *button = dynamic_cast<Fl_Button *>(w);
-    if (button) {
+    if (auto button = dynamic_cast<Fl_Button *>(w)) {
         if (RAZR == Digit::Capacity::INT8) {
             button->label("8");
         } else if (RAZR == Digit::Capacity::INT16) {

@@ -3,7 +3,8 @@ project(newfltk)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(SOURCE_FILES BC1.cxx)
+set(SOURCE_FILES
+        kr.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 

@@ -49,8 +49,8 @@ cmake_ninja_workdir = D$:/Projects/cpp_projects/newfltk/cmake-build-debug/
 
 build cmake_object_order_depends_target_newfltk: phony || CMakeFiles/newfltk.dir
 
-build CMakeFiles/newfltk.dir/BC1.cxx.obj: CXX_COMPILER__newfltk_unscanned_Debug D$:/Projects/cpp_projects/newfltk/BC1.cxx || cmake_object_order_depends_target_newfltk
-  DEP_FILE = CMakeFiles\newfltk.dir\BC1.cxx.obj.d
+build CMakeFiles/newfltk.dir/kr.cpp.obj: CXX_COMPILER__newfltk_unscanned_Debug D$:/Projects/cpp_projects/newfltk/kr.cpp || cmake_object_order_depends_target_newfltk
+  DEP_FILE = CMakeFiles\newfltk.dir\kr.cpp.obj.d
   FLAGS = -g -std=gnu++17 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\newfltk.dir
   OBJECT_FILE_DIR = CMakeFiles\newfltk.dir
@@ -63,7 +63,7 @@ build CMakeFiles/newfltk.dir/BC1.cxx.obj: CXX_COMPILER__newfltk_unscanned_Debug 
 #############################################
 # Link the executable newfltk.exe
 
-build newfltk.exe: CXX_EXECUTABLE_LINKER__newfltk_Debug CMakeFiles/newfltk.dir/BC1.cxx.obj | C$:/msys64/mingw64/lib/libfltk.dll.a
+build newfltk.exe: CXX_EXECUTABLE_LINKER__newfltk_Debug CMakeFiles/newfltk.dir/kr.cpp.obj | C$:/msys64/mingw64/lib/libfltk.dll.a
   FLAGS = -g
   LINK_LIBRARIES = C:/msys64/mingw64/lib/libfltk.dll.a  -lwsock32  -lcomctl32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\newfltk.dir

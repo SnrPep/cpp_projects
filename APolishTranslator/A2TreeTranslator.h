@@ -1,24 +1,23 @@
-#ifndef APOLISHTRANSLATOR_A2TREETRANSLATOR_H
-#define APOLISHTRANSLATOR_A2TREETRANSLATOR_H
-
-#include <stdio.h>
-#include <string.h>
-#include "AStack.h"
+#ifndef A2TREETRANSLATOR_H
+#define A2TREETRANSLATOR_H
 #include "APolishTranslator.h"
 #include "ASmb.h"
-#include "map"
+#include <string>
+#include <memory>
+#include <map>
 
-typedef std::map <std::string, ASmb*> SmbMap;
+typedef std::map<std::string, ASmb*> sM;
 
-class A2TreeTranslator: public APolishTranslator {
+class A2TreeTranslator: public APolishTranslator{
 public:
     A2TreeTranslator();
-
 public:
-    virtual void Parse(const char *lexema, ASmb &s);
-
+    virtual void Parse(const char* lexema, ASmb &s);
+    //void Output(ASmb *psmb);
+    ASmb SrcSet[256];
 public:
-    SmbMap sMap;
+    sM sMap;
 };
 
-#endif //APOLISHTRANSLATOR_A2TREETRANSLATOR_H
+
+#endif //A2TREETRANSLATOR_H

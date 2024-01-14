@@ -13,4 +13,6 @@ add_executable(APolishTranslator
         AStack.cpp
         AStack.h
         main.cpp A2TreeTranslator.h
-        A2TreeTranslator.cpp)
+        A2TreeTranslator.cpp
+        NewBinTree.h
+)
