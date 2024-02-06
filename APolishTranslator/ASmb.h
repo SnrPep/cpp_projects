@@ -24,9 +24,9 @@ public:
 public:
     SString lexema;
     int stype;
-    int arn; // positive for postfix form of arn=1 or infix form of arn = 3, negative for prefix form
-    ASmb *parent;  // pointer to the parent node
-    std::vector<ASmb *> children;  // vector of pointers to child nodes
+    int arn;
+    ASmb *parent;
+    std::vector<ASmb *> children;
 };
 
 #endif // ASMB_H

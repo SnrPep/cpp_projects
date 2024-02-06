@@ -49,15 +49,15 @@ BinTree<string> make_tree(ASmb* root)
 int main()
 {
     APolishTranslator T;
-    ShowTranslate(T,"A * B + C * D");
+ //   ShowTranslate(T,"A * B + C * D");
 //    ShowTranslate(T,"A +B*C+ D");
-    ShowTranslate(T,"( A + B ) * C - ( D - E ) * ( F + G )");
+//    ShowTranslate(T,"( A + B ) * C - ( D - E ) * ( F + G )");
 //    ShowTranslate(T,"Ab+Bc*Cd-(Dd-Ec)*(Fast+G)/X^2");
     A2TreeTranslator TT;
-    ShowTranslate(TT,"A * B + C * D");
+    ShowTranslate(TT,"A * sin B + C ++ / F^2");
 
     printf("\nSyntax Tree:\n");
-    PrintSyntaxTree(TT.root);
+    make_tree(TT.root).Dump();
 
     return 0;
 }

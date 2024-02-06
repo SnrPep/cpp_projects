@@ -72,13 +72,18 @@ void APolishTranslator::Output(ASmb *psmb)
     rpos += len;
     strcpy(&result[rpos], " ");
     rpos += 1;
-
     // Construct the syntax tree
     ASmb *parent = (ASmb *)OList.Last();
     if (parent) {
         if (psmb->stype == SPSTOP)
         {
             psmb->children.push_back(parent->children.back());
+            parent->children.pop_back();
+            psmb->children.back()->parent = psmb;
+        }
+        if ((psmb->stype == SMUL || psmb->stype == SPOW) && psmb->children.size() == 1)
+        {
+            psmb->children.insert(psmb->children.begin(),parent->children.back());
             parent->children.pop_back();
             psmb->children.back()->parent = psmb;
         }

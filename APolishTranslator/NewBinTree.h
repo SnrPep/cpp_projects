@@ -223,11 +223,11 @@ public:
                 for(s_t c=0; c<row_elem_count; ++c) {
                     if(c % 2 == 0) {
                         row += string(c ? left_space*2 + 1 : left_space, ' ');
-                        row += cd_row[c].present ? '/' : ' ';
+                        row += cd_row[c].present ? '.' : ' ';
                         row += string(right_space + 1, ' ');
                     } else {
                         row += string(right_space, ' ');
-                        row += cd_row[c].present ? '\\' : ' ';
+                        row += cd_row[c].present ? '.' : ' ';
                     }
                 }
                 formatted_rows.push_back(row);

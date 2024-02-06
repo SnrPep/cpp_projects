@@ -1,0 +1,40 @@
+"D:\CLion 2023.2.2\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=D:/CLion 2023.2.2/bin/ninja/win/x64/ninja.exe" -G Ninja -S D:\Projects\cpp_projects\VTK -B D:\Projects\cpp_projects\VTK\cmake-build-debug
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Could NOT find GL2PS (missing: GL2PS_LIBRARY GL2PS_INCLUDE_DIR) (Required is at least version "1.4.2")
+-- Found GLEW: C:/msys64/mingw64/lib/libglew32.dll.a  
+-- Found OpenGL: opengl32  found components: OpenGL 
+-- Found EXPAT: C:/msys64/mingw64/lib/libexpat.dll.a (found version "2.5.0") 
+-- Found LZMA: C:/msys64/mingw64/lib/liblzma.dll.a (found version "5.4.4") 
+-- Found LZ4: C:/msys64/mingw64/lib/liblz4.dll.a (found version "1.9.4") 
+-- Found double-conversion: C:/msys64/mingw64/lib/libdouble-conversion.dll.a  
+-- Could NOT find Eigen3 (missing: Eigen3_INCLUDE_DIR) 
+-- Could NOT find TIFF (missing: TIFF_LIBRARY TIFF_INCLUDE_DIR) 
+-- Found ZLIB: C:/msys64/mingw64/lib/libz.dll.a (found version "1.3.#define ZLIB_VERSION "1.3"")  
+-- Found PNG: C:/msys64/mingw64/lib/libpng.dll.a (found version "1.6.40") 
+-- Found JPEG: C:/msys64/mingw64/lib/libjpeg.dll.a (found version "80") 
+-- Could NOT find Freetype (missing: FREETYPE_LIBRARY FREETYPE_INCLUDE_DIRS) 
+-- Found OpenMP_C: -fopenmp (found version "4.5") 
+-- Found OpenMP_CXX: -fopenmp (found version "4.5") 
+-- Found OpenMP: TRUE (found version "4.5")  
+-- Could NOT find utf8cpp (missing: utf8cpp_INCLUDE_DIR) 
+-- Configuring done (3.0s)
+CMake Error at C:/msys64/mingw64/lib/cmake/vtk/VTK-targets.cmake:362 (set_target_properties):
+  The link interface of target "VTK::freetype" contains:
+
+    Freetype::Freetype
+
+  but the target was not found.  Possible reasons include:
+
+    * There is a typo in the target name.
+    * A find_package call is missing for an IMPORTED target.
+    * An ALIAS target is missing.
+
+Call Stack (most recent call first):
+  C:/msys64/mingw64/lib/cmake/vtk/vtk-config.cmake:138 (include)
+  CMakeLists.txt:6 (find_package)
+
+
+-- Generating done (0.0s)
+CMake Generate step failed.  Build files cannot be regenerated correctly.
