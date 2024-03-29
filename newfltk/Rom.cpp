@@ -38,7 +38,7 @@ void cb_btn(Fl_Button *w, void *data) {
 
 void cb_colorButton(Fl_Button *w, void *data) {
     color++;
-    color%=3;
+    color%=4;
     switch (color) {
         case 0:
             colorButton->color(FL_RED);
@@ -48,6 +48,9 @@ void cb_colorButton(Fl_Button *w, void *data) {
             break;
         case 2:
             colorButton->color(FL_GREEN);
+            break;
+        case 3:
+            colorButton->color(FL_WHITE);
             break;
     }
 }
@@ -66,6 +69,7 @@ static void cb_goButton(Fl_Button*, void*data) {
     }
     else{
         Fl_Window *win = new Fl_Window(N, N);
+        win->color(FL_BLACK);
         for(j=0;j<1;j+=0.01){
             for (fi = 0; fi < 2*M_PI; fi+=0.01) {
                 rho = (R * fabs(sin((double)n/2*fi)))*j;
@@ -128,6 +132,7 @@ int main(int argc, char **argv) {
     vR->when(FL_WHEN_CHANGED);
 
     vr = new Fl_Input(145, 105, 80, 50, "r");
+    vr->readonly(true);
 
     colorButton = new Fl_Button(255, 32, 110, 50, "Color");
     colorButton->color(FL_RED);
