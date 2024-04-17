@@ -3,7 +3,7 @@
 
 double s(int n, double x, double prev){
     double next;
-    next = prev * (((-1)*pow(x,2))/(2*n));
+    next = prev * ((-1) * pow(x, 2)) / ((2 * n) * (2 * n + 1));
     return next;
 }
 
