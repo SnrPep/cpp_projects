@@ -21,20 +21,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5dcadf37-25db-4fee-b8e9-06582081b9f0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../untitled1/class.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../untitled1/main.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../untitled1/myclass.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../untitled1/myclass.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-6729e43abd84fd247294.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/index-2023-12-14T10-03-18-0804.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/target-Cpp-Debug-c6939395edbf72be5877.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/build.ninja" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../harlabs/cmake-build-debug/.cmake/api/v1/reply/index-2024-03-29T00-51-51-0034.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../harlabs/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/../harlabs/cmake-build-debug/.ninja_deps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../harlabs/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/../harlabs/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../harlabs/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/../harlabs/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../harlabs/sin.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../harlabs/sin.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../untitled/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/../untitled/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../untitled/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/../untitled/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../untitled/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/../untitled/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../untitled/person.h" beforeDir="false" afterPath="$PROJECT_DIR$/../untitled/person.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,6 +104,9 @@
       <workItem from="1712659761033" duration="4146000" />
       <workItem from="1713168367386" duration="18000" />
       <workItem from="1713238089248" duration="20000" />
+      <workItem from="1716023378338" duration="27000" />
+      <workItem from="1716024018320" duration="209000" />
+      <workItem from="1716335925612" duration="78000" />
     </task>
     <servers />
   </component>

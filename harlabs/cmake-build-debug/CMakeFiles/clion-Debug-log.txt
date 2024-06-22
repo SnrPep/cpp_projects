@@ -1,4 +1,7 @@
 "D:\CLion 2023.2.2\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=D:/CLion 2023.2.2/bin/ninja/win/x64/ninja.exe" -G Ninja -S D:\Projects\cpp_projects\harlabs -B D:\Projects\cpp_projects\harlabs\cmake-build-debug
 -- Configuring done (0.1s)
--- Generating done (0.0s)
--- Build files have been written to: D:/Projects/cpp_projects/harlabs/cmake-build-debug
+CMake Error at CMakeLists.txt:6 (add_executable):
+  No SOURCES given to target: fact.c
+
+
+CMake Generate step failed.  Build files cannot be regenerated correctly.

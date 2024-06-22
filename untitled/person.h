@@ -14,4 +14,4 @@ public:
     operator char*();
 };
 
-#endif // PERSON_H
+#endif

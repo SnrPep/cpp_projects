@@ -55,6 +55,12 @@ build CMakeFiles/harlabs.dir/matr.cpp.obj: CXX_COMPILER__harlabs_unscanned_Debug
   OBJECT_DIR = CMakeFiles\harlabs.dir
   OBJECT_FILE_DIR = CMakeFiles\harlabs.dir
 
+build CMakeFiles/harlabs.dir/fact.c.obj: C_COMPILER__harlabs_unscanned_Debug D$:/Projects/cpp_projects/harlabs/fact.c || cmake_object_order_depends_target_harlabs
+  DEP_FILE = CMakeFiles\harlabs.dir\fact.c.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\harlabs.dir
+  OBJECT_FILE_DIR = CMakeFiles\harlabs.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target harlabs
@@ -63,7 +69,7 @@ build CMakeFiles/harlabs.dir/matr.cpp.obj: CXX_COMPILER__harlabs_unscanned_Debug
 #############################################
 # Link the executable harlabs.exe
 
-build harlabs.exe: CXX_EXECUTABLE_LINKER__harlabs_Debug CMakeFiles/harlabs.dir/matr.cpp.obj
+build harlabs.exe: CXX_EXECUTABLE_LINKER__harlabs_Debug CMakeFiles/harlabs.dir/matr.cpp.obj CMakeFiles/harlabs.dir/fact.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\harlabs.dir
